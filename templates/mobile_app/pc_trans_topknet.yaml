@@ -1,0 +1,48 @@
+run_mode: train # train analyse
+
+resume_training: False
+resume_node: recent
+experiment_dir: PFEM10_5000R
+experiment_description: PC_Trans_W501_S20
+dataset_path: /home/notebook/data/group/intention_rec/app-series/finance_cache_data_huanggang/PFEM10_Sqlite_5000R_W501_S20
+series_len: 501
+class_num: &class_num 5000
+
+ks: [1, 2, 3, 4, 5]
+metrics_list: ['Top@1','Top@2','Top@3','Top@4','Top@5']
+best_metric: Top@5
+
+dataloader_code: sqlite_dummy     # dummy_app_lmdb   dummy_app
+num_workers: 16
+fetchmany: True
+# batch_size: &batch_size 128
+train_batch_size: 256
+val_batch_size:  1024
+test_batch_size: 1024
+sub_k_list: [30, 30]
+epsilon: 0.01
+
+trainer_code: e2e_auxiliary
+device: cuda
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0001
+enable_lr_schedule: false
+lr: 0.001
+
+num_epochs: 20
+
+ignore_class: [0]
+dataset_wechat_ratio: 0.
+
+model_code: pc_trans_dummy
+dropout_p: 0.1
+embedding_dim: &embedding_dim 64
+d_model: *embedding_dim
+n_layers: 2
+n_heads: 4
+
+task_inputs_series_len: 1
+task_hidden_units: [*class_num]
+activation: relu
+task: multiclass

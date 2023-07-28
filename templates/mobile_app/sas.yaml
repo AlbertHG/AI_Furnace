@@ -1,0 +1,46 @@
+run_mode: train # train analyse
+
+resume_training: False
+resume_node: recent
+experiment_dir: PFEM10_30000R
+experiment_description: SAS_W101_S20
+dataset_path: /home/notebook/data/group/intention_rec/app-series/finance_cache_data_huanggang/PFEM10_Sqlite_3WR_W101_S20
+series_len: 100
+class_num: &class_num 5000
+
+ks: [1, 2, 3, 4, 5]
+metrics_list: ['Top@1','Top@2','Top@3','Top@4','Top@5']
+best_metric: Top@5
+
+dataloader_code: sqlite_sas
+num_workers: 16
+fetchmany: True
+# batch_size: &batch_size 128
+train_batch_size: 256
+val_batch_size:  1024
+test_batch_size: 1024
+
+trainer_code: e2e_auxiliary
+device: cuda
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0001
+enable_lr_schedule: false
+lr: 0.001
+
+num_epochs: 20
+
+ignore_class: [0]
+dataset_wechat_ratio: 0.
+
+model_code: sas_sas
+dropout_p: 0.1
+embedding_dim: &embedding_dim 64
+d_model: *embedding_dim
+n_layers: 2
+n_heads: 4
+
+task_inputs_series_len: 1
+task_hidden_units: [*class_num]
+activation: relu
+task: multiclass

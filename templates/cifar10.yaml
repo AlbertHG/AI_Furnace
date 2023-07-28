@@ -1,0 +1,43 @@
+run_mode: train
+
+resume_training: false
+experiment_dir: debugs
+experiment_description: cifar10
+
+dataloader_code: cifar10
+batch: &batch 128
+train_batch_size: *batch
+val_batch_size:  *batch
+test_batch_size: *batch
+
+trainer_code: image_classification_coteaching
+device: cuda
+device_idx: "0"
+
+optimizer: adam
+weight_decay: 0.0005
+enable_lr_schedule: false
+lr: 0.0001
+
+# optimizer: sgd
+# weight_decay: 0.005
+# momentum: 0.9
+# enable_lr_schedule: true
+# decay_step: 40
+# gamma: 0.1
+# lr: 0.1
+
+num_gradual: 30
+tau: 0.15
+
+num_epochs: 200
+
+ks: [1]
+metrics_list: ['Top@1']
+best_metric: Top@1
+
+model_code: cifar10_resnet_coteaching
+dropout_p: 0.0
+vgg_name: VGG19
+res_name: ResNet18
+task: multiclass

@@ -1,0 +1,34 @@
+run_mode: train # train
+
+resume_training: false
+experiment_dir: experments
+experiment_description: insurance_lr
+
+dataset_path: datasets/criteo/criteo_sampled_data.csv
+feature_msg: datasets/criteo/autoint_feature_msg.json
+
+# ====== 定义 dataloader ======
+dataloader_code: criteo
+batch_size: &batch_size 256
+train_batch_size: *batch_size
+val_batch_size:  *batch_size
+test_batch_size: *batch_size
+
+# ====== 定义 trainer ======
+trainer_code: ctr
+training_auc_mode: value    # value , add_up
+device: cuda
+device_idx: '6'
+optimizer: Adam
+weight_decay: 0.0
+enable_lr_schedule: false
+lr: 0.001
+
+num_epochs: 14
+metrics_list: ['AUC']
+best_metric: AUC
+
+# ====== 定义 model ======
+model_code: insurance_lr
+task: binary
+task_label: label

@@ -1,0 +1,42 @@
+run_mode: train # train
+
+resume_training: false
+experiment_dir: debugs
+experiment_description: cirteo_dcn
+dataset_path: datasets/criteo/train_1m.txt
+feature_msg: datasets/criteo/dcn_feature_msg.json
+# criteo_sampled_data_60W.csv
+# criteo_sample_1K.csv
+# train_1m.txt
+
+dataloader_code: criteo_loader
+batch_size: &batch_size 128
+train_batch_size: *batch_size
+val_batch_size:  *batch_size
+test_batch_size: *batch_size
+test_size: 0.2
+
+trainer_code: ctr
+training_auc_mode: add_up
+device: cpu
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0005
+enable_lr_schedule: false
+lr: 0.001
+
+num_gradual: 10
+tau: 0.3
+
+num_epochs: 30000
+metrics_list: ['AUC']
+best_metric: AUC
+
+model_code: dcn
+dropout_p: 0.5
+cross_num: 0
+cross_parameterization: vector
+dnn_hidden_units: [256, 128]
+activation: relu
+task: binary
+task_label: label

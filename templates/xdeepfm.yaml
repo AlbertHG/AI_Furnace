@@ -1,0 +1,35 @@
+run_mode: train # train
+
+resume_training: false
+experiment_dir: debugs
+experiment_description: cirteo_xdeepfm
+dataset_path: datasets/criteo/train_1m.txt
+feature_msg: datasets/criteo/dcn_feature_msg.json
+# criteo_sampled_data.csv
+
+dataloader_code: criteo
+batch_size: &batch_size 64
+train_batch_size: *batch_size
+val_batch_size:  *batch_size
+test_batch_size: *batch_size
+
+trainer_code: ctr
+device: cuda
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0
+lr: 0.001
+
+num_epochs: 14
+metrics_list: ['AUC']
+best_metric: AUC
+
+model_code: xdeepfm
+embedding_dim: 64
+cin_hidden_units: [256, 128]
+cin_split_half: true
+cin_activation: relu
+dnn_hidden_units: [256, 128]
+activation: relu
+task: binary
+task_label: label

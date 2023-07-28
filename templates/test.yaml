@@ -1,0 +1,41 @@
+run_mode: train # train
+
+resume_training: false
+experiment_dir: debugs
+experiment_description: test_autoint
+dataset_path: datasets/test_csv/test.csv
+feature_msg: datasets/test_csv/test.json
+# criteo_sampled_data.csv
+
+dataloader_code: test
+batch_size: &batch_size 3
+train_batch_size: *batch_size
+val_batch_size:  *batch_size
+test_batch_size: *batch_size
+sequence_features_columns: ["A8","A81","A9","C7"]
+
+trainer_code: ctr
+training_auc_mode: value
+device: cpu
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0
+enable_lr_schedule: false
+lr: 0.001
+
+num_epochs: 14
+metrics_list: ['AUC']
+best_metric: AUC
+
+model_code: dcn
+dropout_p: 0.1
+d_model: 64
+att_layer_num: 2
+att_head_num: 4
+dnn_hidden_units: [256, 128]
+activation: relu
+task: binary
+cross_num: 2
+cross_parameterization: vector
+use_fm: true
+attention_factor: 8

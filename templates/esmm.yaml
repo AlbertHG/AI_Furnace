@@ -1,0 +1,36 @@
+run_mode: train # train
+
+resume_training: false
+experiment_dir: debugs
+experiment_description: cirteo_esmm
+dataset_path: datasets/criteo/train_1m.txt
+feature_msg: datasets/criteo/dcn_feature_msg.json
+# criteo_sampled_data.csv
+
+dataloader_code: criteo_loader
+batch_size: &batch_size 64
+train_batch_size: *batch_size
+val_batch_size:  *batch_size
+test_batch_size: *batch_size
+test_size: 0.2
+
+trainer_code: esmm
+training_auc_mode: add_up
+device: cuda
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0
+enable_lr_schedule: false
+lr: 0.001
+num_epochs: 14
+
+model_code: esmm
+dropout_p: 0.1
+embedding_dim: 64
+dnn_hidden_units: [256, 128]
+activation: relu
+
+task: ['binary','binary']
+task_label: ['label', 'label']
+metrics_list: ['pctr_AUC','pctcvr_AUC']
+best_metric: pctcvr_AUC

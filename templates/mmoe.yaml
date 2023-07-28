@@ -1,0 +1,38 @@
+run_mode: train # train
+
+resume_training: false
+experiment_dir: debugs
+experiment_description: cirteo_mmoe
+dataset_path: datasets/criteo/train_1m.txt
+feature_msg: datasets/criteo/dcn_feature_msg.json
+# criteo_sampled_data.csv
+
+dataloader_code: criteo_loader
+batch_size: &batch_size 64
+train_batch_size: *batch_size
+val_batch_size:  *batch_size
+test_batch_size: *batch_size
+test_size: 0.2
+
+trainer_code: mmoe
+training_auc_mode: add_up
+device: cuda
+device_idx: '0'
+optimizer: Adam
+weight_decay: 0.0
+enable_lr_schedule: false
+lr: 0.001
+num_epochs: 14
+
+model_code: mmoe
+dropout_p: 0.1
+num_experts: &num_experts 3
+expert_dnn_hidden_units: [256, 128]
+gate_dnn_hidden_units: [64, *num_experts]
+tower_dnn_hidden_units: [64]
+activation: relu
+
+task: ['binary','regression']
+task_label: ['label','label']
+metrics_list: ['AUC', 'MSE']
+best_metric: AUC
